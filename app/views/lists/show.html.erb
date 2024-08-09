@@ -7,4 +7,12 @@
     </li>
   <% end %>
 </ul>
+
+<h2>Ajouter un film à cette liste</h2>
+<%= simple_form_for [@list, Bookmark.new] do |f| %>
+  <%= f.association :movie, collection: Movie.all, label_method: :title, value_method: :id %>
+  <%= f.input :comment %>
+  <%= f.submit "Ajouter" %>
+<% end %>
+
 <%= link_to "Retour à la liste des listes", lists_path %>

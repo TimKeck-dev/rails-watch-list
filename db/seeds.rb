@@ -1,8 +1,15 @@
-movies = [
-  { title: "Wonder Woman 1984", overview: "Wonder Woman entre en conflit avec l'Union soviétique pendant la Guerre Froide dans les années 1980 !", poster_url: "https://example.com/wonder_woman.jpg", rating: 6.9 },
-  # Ajoutez d'autres films ici
-]
+require 'open-uri'
+require 'json'
+
+url = 'https://tmdb.lewagon.com/movie/top_rated'
+response = URI.open(url).read
+movies = JSON.parse(response)['results']
 
 movies.each do |movie|
-  Movie.create!(movie)
+  Movie.create(
+    title: movie['title'],
+    overview: movie['overview'],
+    poster_url: "https://image.tmdb.org/t/p/original#{movie['poster_path']}",
+    rating: movie['vote_average']
+  )
 end
